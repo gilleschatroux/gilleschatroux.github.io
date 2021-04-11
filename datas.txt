@@ -1,0 +1,108 @@
+Listes des valeurs à récupérer (Sources : flashMagasin - feuillePrelev - statistique - tickets - documents - consolidation - telecolecte)
+
+prelevSachetBleu	=>	feuillePrelev
+prelevCaisseAuto	=>	feuillePrelev
+
+avoirCaisseClass	=>	aCalculer(totalEspece - prelevSachetBleu - prelevCaisseAuto - perteProfit)
+apportCaisseAuto	=>	feuillePrelev
+apportAccueil		=>	feuillePrelev
+perteProfit			=>	consolidationSigneInverse
+espece				=>  statistique
+nonRendu			=>  statistique
+totalEspece			=>	aCalculer(espece - nonRendu)
+
+nbCheque			=>	telecolecte
+cheque				=>	telecolecte
+nbChequeManu		=>	telecolecte
+chequeManu			=>	telecolecte
+totalNbCheque		=>	aCalculer(nbCheque + nbChequeManu)
+totalCheque			=>	aCalculer(cheque + chequeManu)
+
+cb					=>	telecolecte
+cbRemb				=>	telecolecte
+totalCb				=>	aCalculer(cb - cbRemb)
+cbManu				=>	telecolecte
+cbManuRemb			=>	telecolecte
+totalCbManu			=>	aCalculer(cbManu - cbManuRemb)
+amex				=>	telecolecte
+amexRemb			=>	telecolecte
+totalAmex			=>	aCalculer(amex - amexRemb)
+cbSansContact		=>	telecolecte
+cbSansContactRemb	=>	telecolecte
+totalCbSansContact	=>	aCalculer(cbSansContact - cbSansContactRemb)
+titreRes3c			=>	telecolecte
+titreRes3cRemb		=>	telecolecte
+totalTitreRes3c		=>	aCalculer(titreRes3c - titreRes3cRemb)
+titreRes4c			=>	telecolecte
+titreRes4cRemb		=>	telecolecte
+totalTitreRes4c		=>	aCalculer(titreRes4c - titreRes4cRemb)
+titreRes3cScvx		=>	telecolecte
+titreRes3cScvxRemb	=>	telecolecte
+totalTitreRes3cScvx	=>	aCalculer(titreRes3cScvx - titreRes3cScvxRemb)
+titreRes4cScvx		=>	telecolecte
+titreRes4cScvxRemb	=>	telecolecte
+totalTitreRes4cScvx	=>	aCalculer(titreRes4cScvx - titreRes4cScvxRemb)
+totalTitreRes		=>	aCalculer(totalTitreRes3c + {...} + totalTitreRes4cScvx)
+paieLigneCourseU	=>	statistique
+cbLivrCourseU		=>	statistique
+paieLigneLocU		=>	statistique
+eCommerce			=>	statistique
+totalCarte			=>	aCalculer(totalCb + {...} + eCommerce)
+
+paieEuroCarteU		=>	statistiques
+repriseEuroCarteU	=>	statistiques
+baMag				=>	statistiques/tickets
+carteCadeauU		=>	statistiques
+bonULocal			=>	statistiques/tickets
+bonUNational		=>	statistiques/tickets
+baManu				=>	statistiques/tickets
+bonRecyclage		=>	statistiques/tickets
+bonUOccasRepris		=>	consolidation/tickets
+prelevUOccas		=>	consolidation
+caUOccas			=>	consolidation
+bonUOccasReemis		=>	aCalculer(prelevUOccas - caUOccas)
+bonReducStat		=>	statistiques
+ecobonStat			=>	statistiques
+ecobonTicket		=>	tickets
+bonReduc			=>	aCalculer(bonReducStat + ecobonStat - ecobonTicket)
+bonEurocycleur		=>	statistiques/tickets
+ticketService		=>	statistiques/tickets
+chequeService		=>	statistiques/tickets
+ticketRestaurant	=>	statistiques/tickets
+chequeDejeuner		=>	statistiques/tickets
+totalChequeResto	=>	aCalculer(ticketService + chequeService + ticketRestaurant + chequeDejeuner)
+kadeo				=>	statistiques/tickets
+tirGroupe			=>	statistiques/tickets
+cadoCheque			=>	statistiques/tickets
+bonBest				=>	statistiques/tickets
+totalChequeCadeau	=>	aCalculer(kadeo + tirGroupe + cadoCheque + bonBest)
+paci				=>	statistiques
+paca				=>	statistiques/tickets
+bonAchatCe			=>	statistiques/tickets
+totalbon			=>	aCalculer(paieEuroCarteU + {...} + bonAchatCe)
+
+creditSofinco		=>	documents
+creditFinanco		=>	documents
+paieDiffere			=>	statistiques
+totalCredit			=>	aCalculer(creditSofinco + creditFinanco + paieDiffere)
+
+avoirEmis			=>	aCalculer(totalBonAvoir - avoirRepris)
+avoirRepris			=>	consolidation/tickets
+totalBonAvoir		=>	statistiques
+
+rectetteNetteCA		=>  flashMagasin
+totalEncaiss			=>	aCalculer(totalEspece + totalCheque + totalCarte + totalbon + totalCredit + totalBonAvoir)
+totalStat			=>	statistiques
+ecartStat			=>	aCalculer(totalStat - totalEncaiss)
+ecartCa				=>	aCalculer(rectetteNetteCA - totalStat)
+
+venteCarteCadeau	=>	documents
+venteBaAccueil		=>	documents
+clientCourseU10200	=>	statistiques/documents
+clientUOccas10717	=>	statistiques/documents
+enctPspStation		=>	documents
+cliproTicketCode	=>	documents
+soldeReserv106		=>	documents
+depotGarantLocU200	=>	documents
+totalDifference		=>	aCalculer(venteCarteCadeau + {...} + depotGarantLocU200)
+finalEcart			=>	aCalculer(ecartCa + totalDifference)
