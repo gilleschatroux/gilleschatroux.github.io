@@ -1,0 +1,606 @@
+<!doctype html>
+<html lang="fr">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<link rel="icon" href="">
+
+	<title>Recetator</title>
+
+	<!-- Bootstrap core CSS -->
+	<link rel="stylesheet" href="vendor/bootstrap-4.6.0-dist/css/bootstrap.css">
+
+	<!-- Custom styles for this template -->
+	<link href="assets/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+	<main role="main" class="container">
+		<div class="starter-template">
+			<div class="text-center" id="intro">
+				<h1>Recette Calculator</h1>
+				<button class="btn btn-secondary" id="startButton">Commencer</button>
+			</div>
+
+			<template>
+				<table id="finalRecette">
+					<thead>
+						<tr>
+							<th colspan="2"></th>
+							<th>MAGASIN</th>
+							<th>STATION</th>
+							<th>TOTAL</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th>RECETTE NETTE CA</th>
+							<th>0A99999</th>
+							<th>{{RECETTE NETTE CA}}</th>
+							<th></th>
+							<th></th>
+						</tr>
+						<tr>
+							<td>PRELEVEMENTS SACHETS BLEUS</td>
+							<td>58006</td>
+							<td>{{PRELEVEMENTS SACHETS BLEUS}}</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>PRELEVEMENTS CAISSE AUTO</td>
+							<td>58006</td>
+							<td>{{PRELEVEMENTS CAISSE AUTO}}</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>Total Espèces</td>
+							<td></td>
+							<td>{{TOTAL PRELEVEMENTS}}</td>
+							<td></td>
+							<td></td>
+						</tr>
+
+						<tr>
+							<td>AVOIRS EN CAISSES CLASSIQUES</td>
+							<td></td>
+							<td>{{AVOIRS CAISSES}}</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>APPORT CAISSES AUTO pr lendemain</td>
+							<td></td>
+							<td>{{APPORT CAISSES AUTO}}</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>APPORT ACCUEIL</td>
+							<td></td>
+							<td>{{APPORT ACCUEIL}}</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>Pertes/Profits (+)658100 (-)758100</td>
+							<td></td>
+							<td>{{PERTES/PROFITS}}</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>Régularisation fonds de caisse</td>
+							<td>580001</td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>Apport petite caisse compta</td>
+							<td>531000</td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<th>TOTAL DES ESPECES</th>
+							<th>5800001</th>
+							<th>{{TOTAL ESPECES}}</th>
+							<th></th>
+							<th></th>
+						</tr>
+					</tbody>
+				</table>
+			</template>
+			
+			<div id="result"></div>
+
+			<table class="table table-dark" id="especesTable">
+				<tr >
+					<td colspan="2" class="text-center">
+						<h3>Saisie des espèces</h3>
+					</td>
+				</tr>
+				<tr>
+					<th>Type de paiement</th>
+					<th>Montant</th>
+				</tr>
+				<tr>
+					<td><label for="prelevSachetBleu" class="form-label">Prélèvements sachets bleus</label></td>
+					<td><input type="text" id="prelevSachetBleu" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label for="prelevCaisseAuto">Prélèvements Caisse Auto</label></td>
+					<td><input type="text" id="prelevCaisseAuto" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label for="apportCaisseAuto">Apport Caisse Auto</label></td>
+					<td><input type="text" id="apportCaisseAuto" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label for="apportAccueil">Apport Accueil</label></td>
+					<td><input type="text" id="apportAccueil" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label for="perteProfit">Pertes / Profits</label></td>
+					<td><input type="text" id="perteProfit" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label for="especes">Especes</label></td>
+					<td><input type="text" id="especes" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label for="nonRendu">Non rendu</label></td>
+					<td><input type="text" id="nonRendu" class="form-control"></td>
+				</tr>
+				<tr >
+					<td class="text-right"></td>
+					<td class="text-left"><button type="button" class="btn btn-secondary" id="especesButton">Suivant</button></td>
+				</tr>
+			</table>
+			<!-- Variables à calculer
+				* avoirCaisseClass		=>	aCalculer(totalEspece - prelevSachetBleu - prelevCaisseAuto - perteProfit)
+				* totalEspece			=>	aCalculer(espece - nonRendu)
+			-->
+
+			<table class="table table-dark" id="chequesTable">
+				<tr >
+					<td colspan="2" class="text-center">
+						<h3>Saisie des chèques</h3>
+					</td>
+				</tr>
+				<tr>
+					<th>Type de paiement</th>
+					<th>Montant</th>
+				</tr>
+				<tr>
+					<td><label for="nbChequesNorm">Nombre de chèques</label></td>
+					<td><input type="number" id="nbChequesNorm" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label for="chequesNorm">Chèques</label></td>
+					<td><input type="text" id="chequesNorm" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label for="nbChequesManu">Nombre de chèques manuels</label></td>
+					<td><input type="number" id="nbChequesManu" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label for="chequesManu">Chèques manuels</label></td>
+					<td><input type="text" id="chequesManu" class="form-control"></td>
+				</tr>
+				<tr>
+					<td class="text-right"><button type="button" class="return btn btn-secondary">Retour</button></td>
+					<td class="text-left"><button type="button" class="btn btn-secondary" id="chequesButton">Suivant</button></td>
+				</tr>
+			</table>
+			<!-- Variables à calculer
+				* totalCheque			=>	aCalculer(cheque + chequeManu)
+				* totalNbCheque			=>	aCalculer(nbCheque + nbChequeManu)
+			-->
+
+			<table class="table table-dark" id="cartesTable">
+				<tr >
+					<td colspan="2" class="text-center">
+						<h3>Saisie des cartes</h3>
+					</td>
+				</tr>
+				<tr>
+					<th>Type de paiement</th>
+					<th>Montant</th>
+				</tr>
+				<tr>
+					<td><label for="cb">CB</label></td>
+					<td><input type="text" id="cb" class="form-control"></td>
+				</tr>
+				<!--Remboursements-->
+				<tr>
+					<td><label for="cbRemb">CB remboursement</label></td>
+					<td><input type="text" id="cbRemb" class="form-control"></td>
+				</tr>
+
+				<tr>
+					<td><label for="cbManu">CB manuelles</label></td>
+					<td><input type="text" id="cbManu" class="form-control"></td>
+				</tr>
+				<!--Remboursements-->
+				<tr>
+					<td><label for="cbManuRemb">CB manuelles remboursement</label></td>
+					<td><input type="text" id="cbManuRemb" class="form-control"></td>
+				</tr>
+
+				<tr>
+					<td><label for="amex">AMEX</label></td>
+					<td><input type="text" id="amex" class="form-control"></td>
+				</tr>
+				<!--Remboursements-->
+				<tr>
+					<td><label for="amexRemb">AMEX remboursement</label></td>
+					<td><input type="text" id="amexRemb" class="form-control"></td>
+				</tr>
+
+				<tr>
+					<td><label for="cbSansContact">CB sans contact</label></td>
+					<td><input type="text" id="cbSansContact" class="form-control"></td>
+				</tr>
+				<!--Remboursements-->
+				<tr>
+					<td><label for="cbSansContactRemb">CB sans contact remboursement</label></td>
+					<td><input type="text" id="cbSansContactRemb" class="form-control"></td>
+				</tr>
+
+				<tr>
+					<td><label for="titreRes3c">Titres restaurant 3c</label></td>
+					<td><input type="text" id="titreRes3c" class="form-control"></td>
+				</tr>
+				<!--Remboursements-->
+				<tr>
+					<td><label for="titreRes3cRemb">Titres restaurant 3c remboursement</label></td>
+					<td><input type="text" id="titreRes3cRemb" class="form-control"></td>
+				</tr>
+
+				<tr>
+					<td><label for="titreRes4c">Titres restaurant 4c</label></td>
+					<td><input type="text" id="titreRes4c" class="form-control"></td>
+				</tr>
+				<!--Remboursements-->
+				<tr>
+					<td><label for="titreRes4cRemb">Titres restaurant 4c remboursement</label></td>
+					<td><input type="text" id="titreRes4cRemb" class="form-control"></td>
+				</tr>
+
+				<tr>
+					<td><label for="titreRes3cScvx">Titres restaurant 3c Scvx</label></td>
+					<td><input type="text" id="titreRes3cScvx" class="form-control"></td>
+				</tr>
+				<!--Remboursements-->
+				<tr>
+					<td><label for="titreRes3cScvxRemb">Titres restaurant 3c Scvx remboursement</label></td>
+					<td><input type="text" id="titreRes3cScvxRemb" class="form-control"></td>
+				</tr>
+
+				<tr>
+					<td><label for="titreRes4cScvx">Titres restaurant 4c Scvx</label></td>
+					<td><input type="text" id="titreRes4cScvx" class="form-control"></td>
+				</tr>
+				<!--Remboursements-->
+				<tr>
+					<td><label for="titreRes4cScvxRemb">Titres restaurant 4c Scvx remboursement</label></td>
+					<td><input type="text" id="titreRes4cScvxRemb" class="form-control"></td>
+				</tr>
+
+				<tr>
+					<td><label for="paieLigneCourseU">Paiements en ligne Courses U</label></td>
+					<td><input type="text" id="paieLigneCourseU" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label for="cbLivrCourseU">CB livraisons Courses U</label></td>
+					<td><input type="text" id="cbLivrCourseU" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label for="paieLigneLocU">Paiement en ligne Location U</label></td>
+					<td><input type="text" id="paieLigneLocU" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label for="eCommerce">E commerce</label></td>
+					<td><input type="text" id="eCommerce" class="form-control"></td>
+				</tr>
+				<tr>
+					<td class="text-right"><button type="button" class="return btn btn-secondary">Retour</button></td>
+					<td class="text-left"><button type="button" class="btn btn-secondary" id="cartesButton">Suivant</button></td>
+				</tr>
+			</table>
+			<!-- Variables à calculer
+			* totalCb				=>	aCalculer(cb - cbRemb)
+			* totalCbManu			=>	aCalculer(cbManu - cbManuRemb)
+			* totalAmex				=>	aCalculer(amex - amexRemb)
+			* totalCbSansContact	=>	aCalculer(cbSansContact - cbSansContactRemb)
+			* totalTitreRes3c		=>	aCalculer(titreRes3c - titreRes3cRemb)
+			* totalTitreRes4c		=>	aCalculer(titreRes4c - titreRes4cRemb)
+			* totalTitreRes3cScvx	=>	aCalculer(titreRes3cScvx - titreRes3cScvxRemb)
+			* totalTitreRes4cScvx	=>	aCalculer(titreRes4cScvx - titreRes4cScvxRemb)
+			* totalTitreRes			=>	aCalculer(totalTitreRes3c + {...} + totalTitreRes4cScvx)
+			* totalCarte			=>	aCalculer(totalCb + {...} + eCommerce)
+			-->
+
+			<table class="table table-dark" id="bonsTable">
+				<tr >
+					<td colspan="2" class="text-center">
+						<h3>Saisie des bons</h3>
+					</td>
+				</tr>
+				<tr>
+					<th>Type de paiement</th>
+					<th>Montant</th>
+				</tr>
+				<tr>
+					<td><label for="paieEuroCarteU">Paiements € Carte U</label></td>
+					<td><input type="text" id="paieEuroCarteU" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label for="repriseEuroCarteU">Reprise € Carte U (Négatif)</label></td>
+					<td><input type="text" id="repriseEuroCarteU" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label for="baMag">Bons d'achats magasin</label></td>
+					<td><input type="text" id="baMag" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label for="carteCadeauU">Carte cadeau U</label></td>
+					<td><input type="text" id="carteCadeauU" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label for="bonULocal">Bons U (local)</label></td>
+					<td><input type="text" id="bonULocal" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label for="bonUNational">Bons U (nationnal)</label></td>
+					<td><input type="text" id="bonUNational" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label for="baManu">Bons d'achats mannuels</label></td>
+					<td><input type="text" id="baManu" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label for="bonRecyclage">Bons recyclage</label></td>
+					<td><input type="text" id="bonRecyclage" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label for="bonUOccasRepris">Bons U Occasion Repris</label></td>
+					<td><input type="text" id="bonUOccasRepris" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label for="prelevUOccas">Prelevements U Occasion</label></td>
+					<td><input type="text" id="prelevUOccas" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label for="caUOccas">CA U Occasion</label></td>
+					<td><input type="text" id="caUOccas" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label for="bonReducStat">Bons de reductions (statistiques)</label></td>
+					<td><input type="text" id="bonReducStat" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label for="ecobonStat">Ecobons (statistiques)</label></td>
+					<td><input type="text" id="ecobonStat" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label for="ecobonTicket">Ecobons (tickets)</label></td>
+					<td><input type="text" id="ecobonTicket" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label for="bonEurocycleur">Bon Eurocycleur</label></td>
+					<td><input type="text" id="bonEurocycleur" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label for="ticketService">Tickets service</label></td>
+					<td><input type="text" id="ticketService" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label for="chequeService">Chèques service</label></td>
+					<td><input type="text" id="chequeService" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label for="ticketRestaurant">Tickets restaurant</label></td>
+					<td><input type="text" id="ticketRestaurant" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label for="chequeDejeuner">Cheques déjeuner</label></td>
+					<td><input type="text" id="chequeDejeuner" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label for="kadeo">Kadeo</label></td>
+					<td><input type="text" id="kadeo" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label for="tirGroupe">Tir Groupé</label></td>
+					<td><input type="text" id="tirGroupe" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label for="cadoCheque">Cado chèque</label></td>
+					<td><input type="text" id="cadoCheque" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label for="bonBest">Bons Best</label></td>
+					<td><input type="text" id="bonBest" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label for="paci">PACI</label></td>
+					<td><input type="text" id="paci" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label for="paca">PACA</label></td>
+					<td><input type="text" id="paca" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label for="bonAchatCe">Bons d'achats CE</label></td>
+					<td><input type="text" id="bonAchatCe" class="form-control"></td>
+				</tr>
+				<tr>
+					<td class="text-right"><button type="button" class="return btn btn-secondary">Retour</button></td>
+					<td class="text-left"><button type="button" class="btn btn-secondary" id="bonsButton">Suivant</button></td>
+				</tr>
+			</table>
+			<!-- Variables à calculer
+			* bonUOccasReemis		=>	aCalculer(prelevUOccas - caUOccas)
+			* bonReduc				=>	aCalculer(bonReducStat + ecobonStat - ecobonTicket)
+			* totalChequeResto		=>	aCalculer(ticketService + chequeService + ticketRestaurant + chequeDejeuner)
+			* totalChequeCadeau		=>	aCalculer(kadeo + tirGroupe + cadoCheque + bonBest)
+			* totalbon				=>	aCalculer(paieEuroCarteU + {...} + bonAchatCe)
+			-->
+
+			<table class="table table-dark" id="creditsTable">
+				<tr >
+					<td colspan="2" class="text-center">
+						<h3>Saisie des crédits</h3>
+					</td>
+				</tr>
+				<tr>
+					<th>Type de paiement</th>
+					<th>Montant</th>
+				</tr>
+				<tr>
+					<td><label for="creditSofinco">Crédits Sofinco</label></td>
+					<td><input type="text" id="creditSofinco" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label for="creditFinanco">Crédits Fianco</label></td>
+					<td><input type="text" id="creditFinanco" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label for="paieDiffere">Paiements différés</label></td>
+					<td><input type="text" id="paieDiffere" class="form-control"></td>
+				</tr>
+				<tr>
+					<td class="text-right"><button type="button" class="return btn btn-secondary">Retour</button></td>
+					<td class="text-left"><button type="button" class="btn btn-secondary" id="creditsButton">Suivant</button></td>
+				</tr>
+			</table>
+			<!-- Variables à calculer
+			* totalCredit			=>	aCalculer(creditSofinco + creditFinanco + paieDiffere)
+			-->
+
+			<table class="table table-dark" id="avoirsTable">
+				<tr >
+					<td colspan="2" class="text-center">
+						<h3>Saisie des avoirs</h3>
+					</td>
+				</tr>
+				<tr>
+					<th>Type de paiement</th>
+					<th>Montant</th>
+				</tr>
+				<tr>
+					<td><label for="avoirRepris">Avoirs Repris</label></td>
+					<td><input type="text" id="avoirRepris" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label for="totalBonAvoir">Total Bons Avoir</label></td>
+					<td><input type="text" id="totalBonAvoir" class="form-control"></td>
+				</tr>
+				<tr>
+					<td class="text-right"><button type="button" class="return btn btn-secondary">Retour</button></td>
+					<td class="text-left"><button type="button" class="btn btn-secondary" id="avoirsButton">Suivant</button></td>
+				</tr>
+			</table>
+			<!-- Variables à calculer
+			* avoirEmis				=>	aCalculer(totalBonAvoir - avoirRepris)
+			-->
+
+			<table class="table table-dark" id="ecartTable">
+				<tr >
+					<td colspan="2" class="text-center">
+						<h3>Saisie du chiffre d'affaire</h3>
+					</td>
+				</tr>
+				<tr>
+					<th>Type de paiement</th>
+					<th>Montant</th>
+				</tr>
+				<tr>
+					<td><label for="recetteNetteCA">Recette nette CA</label></td>
+					<td><input type="text" id="recetteNetteCA" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label for="totalStat">Total statistiques</label></td>
+					<td><input type="text" id="totalStat" class="form-control"></td>
+				</tr>
+				<tr>
+					<td class="text-right"><button type="button" class="return btn btn-secondary">Retour</button></td>
+					<td class="text-left"><button type="button" class="btn btn-secondary" id="ecartButton">Suivant</button></td>
+				</tr>
+			</table>
+			<!-- Variables à calculer
+			* totalEncaiss			=>	aCalculer(totalEspece + totalCheque + totalCarte + totalbon + totalCredit + avoirEmis)
+			* ecartStat				=>	aCalculer(totalStat - totalEncaiss)
+			* ecartCa				=>	aCalculer(rectetteNetteCA - totalStat)
+			-->
+
+			<table class="table table-dark" id="justifsTable">
+				<tr >
+					<td colspan="2" class="text-center">
+						<h3>Saisie des justificatifs liés à l'écart</h3>
+					</td>
+				</tr>
+				<tr>
+					<th>Type de paiement</th>
+					<th>Montant</th>
+				</tr>
+				<tr>
+					<td><label for="venteCarteCadeau">Vente cartes cadeau</label></td>
+					<td><input type="text" id="venteCarteCadeau" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label for="venteBaAccueil">Vente BA Accueil</label></td>
+					<td><input type="text" id="venteBaAccueil" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label for="clientCourseU10200">Client course U 10200</label></td>
+					<td><input type="text" id="clientCourseU10200" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label for="clientUOccas10717">Client U Occas 10717</label></td>
+					<td><input type="text" id="clientUOccas10717" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label for="enctPspStation">Encaissements Psp Station</label></td>
+					<td><input type="text" id="enctPspStation" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label for="cliproTicketCode">Clipro ticket code</label></td>
+					<td><input type="text" id="cliproTicketCode" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label for="soldeReserv106">Solde Reserv 106</label></td>
+					<td><input type="text" id="soldeReserv106" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label for="depotGarantLocU200">Depot garantie Loc U 200</label></td>
+					<td><input type="text" id="depotGarantLocU200" class="form-control"></td>
+				</tr>
+				<tr>
+					<td class="text-right"><button type="button" class="return btn btn-secondary">Retour</button></td>
+					<td class="text-left"><button type="button" class="btn btn-secondary" id="justifsButton">Suivant</button></td>
+				</tr>
+			</table>
+			<!-- Variables à calculer
+			* totalDifference		=>	aCalculer(venteCarteCadeau + {...} + depotGarantLocU200)
+			* finalEcart			=>	aCalculer(ecartCa + totalDifference)
+			-->
+		</div>
+	</main>
+
+	<footer class="mastfoot mt-4">
+		<div class="inner">
+			<p class="text-center">Développé par Gilles CHATROUX &copy; Tous droits réservés.</p>
+		</div>
+	</footer>
+
+	<script type="text/javascript" src="assets/js/main.js"></script>
+</body>
+</html>
