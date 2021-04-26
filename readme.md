@@ -1,5 +1,7 @@
 # Welcome to [gilleschatroux]
 
+A web landing page to put my development experiments
+
 ## What is Gilles Chatroux 🤔 ?
 
 This is just my name and I'm a junior web developper.
