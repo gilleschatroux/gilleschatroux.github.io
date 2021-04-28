@@ -15,8 +15,8 @@ body {
 header {
     width: 100%;
     position: fixed;
-    background-color: white;
-    border-bottom: 1px black solid;
+    background-color: rgb(240, 240, 240);
+    border-bottom: 1px rgb(46, 46, 46) solid;
 }
 
 header nav {
@@ -29,28 +29,62 @@ header nav {
     align-items: center;
 }
 
-header nav a {
+.nav-link {
     text-decoration: none;
-    color: black;
+    color: rgb(46, 46, 46);;
 }
 
-header nav h1 {
+#nav-logo {
     font-family: 'Poiret One', cursive;
 }
 
-header nav ul {
+#nav-menu, 
+#mobile-nav-menu {
     list-style: none;
     display: none;
 }
 
-header nav button {
+#mobile-nav-menu .nav-item {
+    margin: 15px 0 15px;
+}
+
+#mobile-nav-menu .nav-link {
+    padding: 10px;
+    border-radius: 6px;
+}
+
+#mobile-nav-menu.opened {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background-color: rgb(240, 240, 240);
+}
+
+#nav-button {
     padding: 7px;
+    background-color: rgb(240, 240, 240);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 1;
+}
+
+#mobile-nav-menu .nav-item:hover .nav-link,
+#nav-button:hover {
+    background-color: rgb(46, 46, 46);
+    color: rgb(240, 240, 240);
 }
 
 /*MAIN*/
 
 section {
-    border-bottom: black 1px solid;
+    border-bottom: rgb(46, 46, 46) 1px solid;
     width: 100%;
     min-height: 100vh;
     padding: 100px 10% 5%;
@@ -66,8 +100,7 @@ section {
 
 .section-content {
     padding: 20px;
-    background-color: rgb(230, 230, 230);
-    border-radius: 8px;
+    background-color: rgb(240, 240, 240);
 
     display: flex;
     flex-direction: column;
@@ -105,14 +138,18 @@ form div {
 /*MEDIA QUERIES*/
 
 @media (min-width: 1250px) {
-    header nav ul {
+    #nav-menu {
         width: 40%;
 
         display: flex;
         justify-content: space-between;
     }
 
-    header nav button {
+    #mobile-nav-menu.opened {
+        display: none;
+    }
+
+    #nav-button {
         display: none;
     }
 }
